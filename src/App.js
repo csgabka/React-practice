@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Radium, {StyleRoot} from 'radium';
 import './App.css';
 import Person from './Person/Person';
 import ValidationComp from './ValidationComp/ValidationComp';
@@ -70,11 +71,15 @@ class App extends Component {
     });
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover': {
+      	backgroundColor: 'lightgreen'
+      }
     };
       
   let persons = null;
@@ -92,12 +97,27 @@ class App extends Component {
            })}
         </div>
       );
-  }  
+    style.backgroundColor = "orange";
+    style[':hover'] = {
+    	backgroundColor: 'yellow'
+ 	 }
+    }
+
+  let classes = [];
+
+  if (this.state.persons.length <= 2) {
+  	classes.push("red");
+  }
+
+  if (this.state.persons.length <= 1) {
+  	classes.push("bold");
+  }
 
   return (
+  	<StyleRoot>
       <div className="App">
         <h1>Basics of react</h1>
-        <p>It really works!</p>
+        <p className={classes.join(' ')}>It really works!</p>
 
         <button
           style={style}
@@ -110,9 +130,10 @@ class App extends Component {
        {charList}
 
       </div>
+      </StyleRoot>
     );
     
   }
 }
 
-export default App;
+export default Radium(App);
