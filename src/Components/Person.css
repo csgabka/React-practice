@@ -1,0 +1,6 @@
+.Person {
+	border: 1px dotted blue;
+	margin-top: 10px;
+	box-shadow: 2px 1px black;
+	border-radius: 50px;
+}
