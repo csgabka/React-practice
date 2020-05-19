@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import Radium, {StyleRoot} from 'radium';
-import './App.css';
-import Person from './Person/Person';
-import ValidationComp from './ValidationComp/ValidationComp';
-import CharComponents from './CharComponents/CharComponents';
+import classes from './App.module.css';
+import People from '../Components/People/People';
+import ValidationComp from '../Components/ValidationComp/ValidationComp';
+import CharComponents from '../Components/CharComponents/CharComponents';
+
+
 class App extends Component {
   state = {
     persons: [
@@ -28,14 +29,14 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
     this.setState({persons: persons})
-    
+
     //Another solution
     /*const persons = [...this.state.persons];
     persons.map(person => {
       if (id === person.id) {
         person.name = event.target.value;
       }
-      
+
     });
     this.setState({persons: persons});*/
   }
@@ -64,76 +65,54 @@ class App extends Component {
 
   render () {
     const charList = this.state.userInput.split('').map((ch, index) => {
-      return <CharComponents 
-      character={ch} 
+      return <CharComponents
+      character={ch}
       key={index}
       clicked={() => this.deleteCharHandler(index)}/>;
     });
 
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      ':hover': {
-      	backgroundColor: 'lightgreen'
-      }
-    };
-      
+  let btnClass = '';
   let persons = null;
 
   if (this.state.showPersons) {
     persons = (
-           <div>
-           { this.state.persons.map((person, index) => {
-            return <Person 
-            name={person.name}
-            age={person.age}
-            click={this.deletePerson.bind(this, index)}
-            key={person.id}
-            changed={(event) => this.nameChangedHandler(event, person.id)}/>
-           })}
-        </div>
-      );
-    style.backgroundColor = "orange";
-    style[':hover'] = {
-    	backgroundColor: 'yellow'
- 	 }
+           <People persons={this.state.persons}
+                   deletePerson={this.deletePerson}
+                   nameChangedHandler={this.nameChangedHandler}
+            />
+    );
+
+    btnClass = classes.Green;
     }
 
-  let classes = [];
+  let classNames = [];
 
   if (this.state.persons.length <= 2) {
-  	classes.push("red");
+  	classNames.push(classes.red);
   }
 
   if (this.state.persons.length <= 1) {
-  	classes.push("bold");
+  	classNames.push(classes.bold);
   }
 
   return (
-  	<StyleRoot>
-      <div className="App">
+      <div className={classes.App}>
         <h1>Basics of react</h1>
-        <p className={classes.join(' ')}>It really works!</p>
+        <p className={classNames.join(' ')}>It really works!</p>
 
-        <button
-          style={style}
+        <button className={btnClass}
           onClick={this.togglePersonsHandler}>Toggle Persons</button>
           {persons}
         <br />
-        <input type="text" value={this.state.userInput} onChange={(event) => this.onChange(event)}/>
+        <input className={classes.input} type="text" value={this.state.userInput} onChange={(event) => this.onChange(event)}/>
         <ValidationComp userInput={this.state.userInput}></ValidationComp>
 
        {charList}
 
       </div>
-      </StyleRoot>
     );
-    
+
   }
 }
 
-export default Radium(App);
+export default App;
