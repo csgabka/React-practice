@@ -3,7 +3,7 @@ import classes from './App.module.css';
 import People from '../Components/People/People';
 import ValidationComp from '../Components/ValidationComp/ValidationComp';
 import CharComponents from '../Components/CharComponents/CharComponents';
-
+import Cockpit from '../Components/Cockpit/Cockpit';
 
 class App extends Component {
   state = {
@@ -71,7 +71,7 @@ class App extends Component {
       clicked={() => this.deleteCharHandler(index)}/>;
     });
 
-  let btnClass = '';
+
   let persons = null;
 
   if (this.state.showPersons) {
@@ -81,34 +81,18 @@ class App extends Component {
                    nameChangedHandler={this.nameChangedHandler}
             />
     );
-
-    btnClass = classes.Green;
     }
-
-  let classNames = [];
-
-  if (this.state.persons.length <= 2) {
-  	classNames.push(classes.red);
-  }
-
-  if (this.state.persons.length <= 1) {
-  	classNames.push(classes.bold);
-  }
 
   return (
       <div className={classes.App}>
-        <h1>Basics of react</h1>
-        <p className={classNames.join(' ')}>It really works!</p>
-
-        <button className={btnClass}
-          onClick={this.togglePersonsHandler}>Toggle Persons</button>
-          {persons}
-        <br />
+        <Cockpit
+        togglePersonsHandler={this.togglePersonsHandler}
+        showPersons={this.state.showPersons}
+        persons={this.state.persons} />
+        {persons}
         <input className={classes.input} type="text" value={this.state.userInput} onChange={(event) => this.onChange(event)}/>
         <ValidationComp userInput={this.state.userInput}></ValidationComp>
-
        {charList}
-
       </div>
     );
 
