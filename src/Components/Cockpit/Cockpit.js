@@ -20,7 +20,7 @@ const Cockpit = (props) => {
 
 
   return (
-    <div>
+    <div className={classes.App}>
     <h1>Basics of react</h1>
     <p className={classNames.join(' ')}>It really works!</p>
 

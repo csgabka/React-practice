@@ -23,11 +23,3 @@
 .App button:hover {
 	background-color: lightblue;
 }
-
-.App button.Green {
-	background-color: green;
-}
-
-.App button.Green:hover {
-	background-color: lightgreen;
-}
