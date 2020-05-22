@@ -4,6 +4,9 @@ import People from '../Components/People/People';
 import ValidationComp from '../Components/ValidationComp/ValidationComp';
 import CharComponents from '../Components/CharComponents/CharComponents';
 import Cockpit from '../Components/Cockpit/Cockpit';
+import Auxilliary from '../Components/hoc/Auxilliary';
+import withClasss from '../Components/hoc/withClasss';
+import AuthContext from '../Components/context/auth-context';
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +22,9 @@ class App extends Component {
     ],
     showPersons: false,
     userInput: '',
-    showCockpit: true
+    showCockpit: true,
+    changeCounter: 0,
+    authenticated: false
   }
 
  static getDerivedStateFromProps(props, state) {
@@ -54,7 +59,12 @@ class App extends Component {
 
     const persons = [...this.state.persons];
     persons[personIndex] = person;
-    this.setState({persons: persons})
+    this.setState((prevState, props) => {
+      return {persons: persons,
+      changeCounter: prevState.changeCounter+1}
+    })
+
+    //best practice to update state above
 
     //Another solution
     /*const persons = [...this.state.persons];
@@ -86,6 +96,10 @@ class App extends Component {
    text.splice(index, 1);
    const updatedText = text.join('');
    this.setState({userInput: updatedText});
+ }
+
+   hideLoginBtn = (event) => {
+  this.setState({authenticated: true});
   }
 
   render () {
@@ -110,20 +124,24 @@ class App extends Component {
     }
 
   return (
-      <div className={classes.App}>
+      <Auxilliary>
       <button onClick={() => {this.setState({showCockpit: false})}}>Hide cockpit!</button>
+      <AuthContext.Provider value={{authenticated: this.state.authenticated}}>
         {this.state.showCockpit ? <Cockpit
         togglePersonsHandler={this.togglePersonsHandler}
         showPersons={this.state.showPersons}
         personsLength={this.state.persons.length} /> : null}
         {persons}
+      </AuthContext.Provider>
         <input className={classes.input} type="text" value={this.state.userInput} onChange={(event) => this.onChange(event)}/>
         <ValidationComp userInput={this.state.userInput}></ValidationComp>
+        {this.state.authenticated ? null : <button onClick={this.hideLoginBtn}>Login</button>
+        }
        {charList}
-      </div>
+      </Auxilliary>
     );
 
   }
 }
 
-export default App;
+export default withClasss(App, classes.App);

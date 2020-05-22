@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useContext} from 'react';
 import classes from './Cockpit.module.css';
 
 const Cockpit = (props) => {
+  //const clickRef = useRef(null);
   //useEffect combines componentdidmount and componentdidupdate
+
+
   useEffect(() => {
     console.log('Cockpit.js useEffect');
-    const timer = setTimeout(() => {
-      alert('Alert!!!!!!!!!!!!');
-    }, 1000)
+    //clickRef.current.click();
     return () => {
-      clearTimeout(timer);
       console.log('Cockpit.js cleanupwork in useEffect');
     }
   }, []); //1. useEffect with second argument [] runs as ComponentDidMount - only runs once
@@ -43,7 +43,7 @@ const Cockpit = (props) => {
     <h1>Basics of react</h1>
     <p className={classNames.join(' ')}>It really works!</p>
 
-    <button className={btnClass}
+    <button /*ref={clickRef}*/ className={btnClass}
       onClick={props.togglePersonsHandler}>Toggle Persons</button>
 
     <br />
