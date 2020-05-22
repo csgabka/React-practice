@@ -1,16 +1,35 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import classes from './Cockpit.module.css';
 
 const Cockpit = (props) => {
+  //useEffect combines componentdidmount and componentdidupdate
+  useEffect(() => {
+    console.log('Cockpit.js useEffect');
+    const timer = setTimeout(() => {
+      alert('Alert!!!!!!!!!!!!');
+    }, 1000)
+    return () => {
+      clearTimeout(timer);
+      console.log('Cockpit.js cleanupwork in useEffect');
+    }
+  }, []); //1. useEffect with second argument [] runs as ComponentDidMount - only runs once
+  //2. useEffect with second argument [props.persons] - only runs when props.persons get changed
+
+  useEffect(()=> {
+    console.log('Cockpit.js 2nd useEffect');
+    return () => {
+      console.log('Cockpit.js cleanupwork 2nd useEffect');
+    }
+  }); //3. NO SECOND ARGUMENT so it will run with every update cycle
 
   let classNames = [];
   let btnClass = '';
 
-  if (props.persons.length <= 2) {
+  if (props.personsLength <= 2) {
   	classNames.push(classes.red);
   }
 
-  if (props.persons.length <= 1) {
+  if (props.personsLength <= 1) {
   	classNames.push(classes.bold);
   }
 
@@ -32,4 +51,6 @@ const Cockpit = (props) => {
   );
 }
 
-export default Cockpit;
+export default React.memo(Cockpit);
+//for optimizing functional component - wrap in React.memo. this way only what
+//changes going to get rendered again

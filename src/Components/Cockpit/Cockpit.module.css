@@ -5,3 +5,11 @@
 .App button.Green:hover {
 	background-color: lightgreen;
 }
+
+.red {
+	color: red;
+}
+
+.bold {
+	font-weight: bold;
+}
